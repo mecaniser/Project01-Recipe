@@ -1,0 +1,192 @@
+<!Doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!--Materialized Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <!-- Materialized Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Audiowide|Khand" rel="stylesheet">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+
+
+    <title>Project01-Recipe</title>
+</head>
+
+<body>
+    <header class="page-top">
+        <div class="menubar">
+            <a href="index.html" id="home"></a>
+            <nav class="navbar">
+                <!-- this is the navigation bar -->
+                <a class="btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="5 Star Team">About</a>
+                <a class="btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Materialize,Edamam API, Wiki API">Sources</a>
+                <a class="btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Robert Max Sergio">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main container -->
+    <main>
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Search Input -->
+                <form id="search-form">
+                    <section>
+                        <h2 class="text-center">Find a Recipe</h2>
+                        <fieldset id="diet" class="z-depth-5">
+                            <div class="input-field col s12 m12">
+                                <select class="icons">
+                                    <option id="balanced" name="diet" value="balanced" checked>Balanced</option>
+                                    <option id="high-protein" name="diet" value="high-protein">High-Protein</option>
+                                    <option id="low-carb" name="diet" value="low-carb">Low-Carb</option>
+                                    <option id="low-fat" name="diet" value="low-fat">Low-Fat</option>
+                                </select>
+
+                                <label>
+                                    <h6>Diet options</h6>
+                                </label>
+                                <br>
+                            </div>
+                        </fieldset>
+
+
+                        <!-- Health Options -->
+                        <fieldset id="allergy" class="z-depth-5">
+                            <div class="input-field col s12 m12">
+                                <select class="icons">
+                                    <option name="health" value="sugar-conscious" checked>Sugar-Conscious</option>
+                                    <option name="health" value="peanut-free">Peanut-Free</option>
+                                    <option name="health" value="tree-nut-free">Tree-Nut-Free</option>
+                                    <option name="health" value="vegetarian">Vegetarian</option>
+                                    <option name="health" value="vegan">Vegan</option>
+                                    <option name="health" value="alcohol-free">Alcohol-Free</option>
+                                </select>
+
+                                <label>
+                                    <h6>Health options</h6>
+                                </label>                                
+                            </div>
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--Recipes Containing-->
+                                <fieldset id="recipeSet" class="z-depth-5 input-field col s12">                                    
+                                    <div class="input-field col s4">
+                                        <input type="text" id="ingredient1" name="ingredient">
+                                        <label for="text">
+                                            <h6>First Ingredient</h6>
+                                        </label>
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <input type="text" id="ingredient2" name="ingredient">
+                                        <label for="text">
+                                            <h6>Second Ingredient</h6>
+                                        </label>
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <input type="text" id="ingredient3" name="ingredient">
+                                        <label for="text">
+                                            <h6>Third Ingredient</h6>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        <button id="submit" class="btn waves-effect waves-light progress" type="submit" name="action">Search
+                            <i class="material-icons right">search</i>
+                        </button>
+
+                        <button id="clearRecipe" class="btn waves-effect waves-light" type="submit" name="action">Clear Recipes
+                            <i class="material-icons right">delete_sweep</i>
+                        </button>
+                        
+                        <!--Wiki Section-->
+                        <fieldset id="wiki" class="z-depth-5">                                
+                            <h3>What's that ingredient?!</h3>
+                            Wikipedia Search:
+                            <input type="text" id="wikiSearch">
+                            <br>
+                            <button id="wikiSubmit" class="btn waves-effect waves-light progress" type="submit" name="action">Search<i class="material-icons right">search</i></button>
+                            <button id="wikiClear" class="btn waves-effect waves-light progress" type="clear">Clear<i class="material-icons right">delete_sweep</i></button>
+                            <div id="alert"></div>
+                            <section id="wikiDisplay"></section>                            
+                        </fieldset>                        
+
+                    </section>
+                </form>
+
+                <!-- Search History from Firebase -->
+                <section id="history">
+                    <h3>Latest Searches:</h3>
+                    <table class="searchTab">
+                        <thead>
+                            <tr>
+                                <th>Diet</th>
+                                <th>Ingredient</th>
+                                <th>Ingredient</th>
+                                <th>Ingredient</th>
+                                <th>Health</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </section>
+                
+                <span class="flow-text">
+                    <section id="recipeDisplay"></section>
+                </span>
+            </div>
+        </div>     
+    </main>
+    <!-- End Of Main Container -->
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Group Project UNCC Fullstack Coding Bootcamp</h5>
+                    <p class="grey-text text-lighten-4"></p>
+                    <ul>
+                        <li>Robert Sergent</li>
+                        <li>Maxwell Robb</li>
+                        <li>Sergio Burca</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-copyright">
+            <div class="container">
+                © 2018 All rights reserved
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Javascript -->
+    <script src="assets/javascript/logic.js"></script>
+</body>
+
+</html>
